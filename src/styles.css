@@ -1,17 +1,129 @@
-
 @import "tailwindcss";
+@import "tw-animate-css";
 
-* {
-  box-sizing: border-box;
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-terminal: var(--terminal);
+  --color-terminal-dim: var(--terminal-dim);
+  --color-terminal-bg: var(--terminal-bg);
 }
 
-html,
-body,
-#app {
-  min-height: 100%;
+:root {
+  --radius: 0.625rem;
+
+  /* Terminal palette */
+  --terminal-bg: oklch(0 0 0);
+  --terminal: oklch(0.86 0.27 142);    /* #00ff00-ish phosphor green */
+  --terminal-dim: oklch(0.55 0.16 142);
+
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.86 0.27 142);
+  --card: oklch(0 0 0);
+  --card-foreground: oklch(0.86 0.27 142);
+  --popover: oklch(0 0 0);
+  --popover-foreground: oklch(0.86 0.27 142);
+  --primary: oklch(0.86 0.27 142);
+  --primary-foreground: oklch(0 0 0);
+  --secondary: oklch(0.2 0.05 142);
+  --secondary-foreground: oklch(0.86 0.27 142);
+  --muted: oklch(0.15 0.02 142);
+  --muted-foreground: oklch(0.55 0.16 142);
+  --accent: oklch(0.2 0.05 142);
+  --accent-foreground: oklch(0.86 0.27 142);
+  --destructive: oklch(0.6 0.25 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.3 0.08 142);
+  --input: oklch(0.3 0.08 142);
+  --ring: oklch(0.55 0.16 142);
 }
 
-body {
-  margin: 0;
+.dark {
+  /* Same — app is always dark */
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.86 0.27 142);
 }
 
+@layer base {
+  * { border-color: var(--color-border); }
+
+  html, body, #root {
+    background-color: var(--color-terminal-bg);
+    color: var(--color-terminal);
+    font-family: var(--font-mono);
+  }
+
+  body {
+    margin: 0;
+    text-shadow: 0 0 2px color-mix(in oklab, var(--color-terminal) 60%, transparent);
+  }
+
+  ::selection {
+    background: var(--color-terminal);
+    color: var(--color-terminal-bg);
+  }
+}
+
+/* CRT scanlines overlay */
+.scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.25) 3px,
+    rgba(0, 0, 0, 0.25) 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+.vignette {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* Blinking block cursor */
+.terminal-cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  background: var(--color-terminal);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: terminal-blink 1.1s steps(1) infinite;
+  box-shadow: 0 0 6px color-mix(in oklab, var(--color-terminal) 70%, transparent);
+}
+
+@keyframes terminal-blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
