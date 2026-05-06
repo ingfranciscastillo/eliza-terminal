@@ -38,14 +38,24 @@ export function Message({ message, onDone }: Props) {
     const tick = () => {
       if (cancelled) return;
       i += 1;
+      if (message.kind === "eliza" && Math.random() < 0.06) {
+        setTimeout(tick, 200 + Math.random() * 600);
+        return;
+        }
       if (i >= message.text.length) {
         setShown(message.text);
-        onDone?.();
+        setTimeout(() => onDone?.(), 200 + Math.random() * 400);
         return;
-      }
+        }
       // occasional glyph corruption that "self-corrects"
       const slice = message.text.slice(0, i);
-      if (message.kind === "eliza" && Math.random() < 0.04) {
+
+      const glitchChance =
+        message.kind === "eliza"
+            ? Math.min(0.12, 0.02 + message.text.length / 200)
+            : 0;
+
+      if (message.kind === "eliza" && glitchChance) {
         setShown(corrupt(slice, 0.08));
         setTimeout(() => {
           if (!cancelled) setShown(message.text.slice(0, i));
@@ -53,10 +63,18 @@ export function Message({ message, onDone }: Props) {
       } else {
         setShown(slice);
       }
-      const jitter = speed + (Math.random() * speed) / 2;
+
+      const jitter = speed * (0.6 + Math.random() * 1.8);
       setTimeout(tick, jitter);
     };
-    const t = setTimeout(tick, speed);
+    
+    const thinkingDelay =
+    message.kind === "eliza"
+        ? 400 + Math.random() * 1200
+        : speed;
+
+    const t = setTimeout(tick, thinkingDelay);
+
     return () => {
       cancelled = true;
       clearTimeout(t);
@@ -77,6 +95,9 @@ export function Message({ message, onDone }: Props) {
   return (
     <div className={cls}>
       {prefix}{shown}
+    {!message.instant && message.kind !== "user" && (
+    <span className="animate-pulse">█</span>
+    )}
     </div>
   );
 }
