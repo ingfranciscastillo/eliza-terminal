@@ -24,10 +24,9 @@ const POST_SWAP: Record<string, string> = {
 };
 
 function swap(text: string): string {
-  return text
-    .split(/\s+/)
-    .map((w) => POST_SWAP[w.toLowerCase()] ?? w)
-    .join(" ");
+  return text.replace(/\b(\w+('\w+)?)\b/g, (word) => {
+    return POST_SWAP[word.toLowerCase()] ?? word;
+  });
 }
 
 function preprocess(text: string): string {
@@ -51,7 +50,7 @@ const RULES: Rule[] = [
   {
     keyword: "remember", rank: 5,
     patterns: [
-      { decomp: /(.*)i remember (.*)/, reassembly: [
+      { decomp: /\bi remember (.+)/, reassembly: [
         "Do you often think of *?",
         "Does thinking of * bring anything else to mind ?",
         "Why do you remember * just now ?",
@@ -123,7 +122,7 @@ const RULES: Rule[] = [
   },
   {
     keyword: "i'm", rank: 3,
-    patterns: [{ decomp: /(.*)i'm (.*)/, reassembly: [
+    patterns: [{ decomp: /\bi'm (.+)/, reassembly: [
       "Did you come to me because you are *?",
       "How long have you been *?",
       "Do you believe it's normal to be *?",
@@ -133,27 +132,27 @@ const RULES: Rule[] = [
   {
     keyword: "i", rank: 1,
     patterns: [
-      { decomp: /(.*)i feel (.*)/, reassembly: [
+      { decomp: /\bi feel (.+)/, reassembly: [
         "Tell me more about such feelings.",
         "Do you often feel *?",
         "Do you enjoy feeling *?",
       ]},
-      { decomp: /(.*)i want (.*)/, reassembly: [
+      { decomp: /\bi want (.+)/, reassembly: [
         "What would it mean if you got *?",
         "Why do you want *?",
         "Suppose you got * soon.",
       ]},
-      { decomp: /(.*)i can't (.*)/, reassembly: [
+      { decomp: /\bi can't (.+)/, reassembly: [
         "How do you know you can't *?",
         "Have you tried ?",
         "Perhaps you could * now.",
       ]},
-      { decomp: /(.*)i don't (.*)/, reassembly: [
+      { decomp: /\bi don't (.+)/, reassembly: [
         "Don't you really *?",
         "Why don't you *?",
         "Do you wish to be able to *?",
       ]},
-      { decomp: /(.*)i (.*)/, reassembly: [
+      { decomp: /\bi (.+)/, reassembly: [
         "You say you *?",
         "Why do you say that ?",
         "Do you really *?",
@@ -163,17 +162,17 @@ const RULES: Rule[] = [
   {
     keyword: "you", rank: 2,
     patterns: [
-      { decomp: /(.*)you are (.*)/, reassembly: [
+      { decomp: /\byou are (.+)/, reassembly: [
         "What makes you think I am *?",
         "Does it please you to believe I am *?",
         "Why do you say I am *?",
       ]},
-      { decomp: /(.*)you (.*) me(.*)/, reassembly: [
+      { decomp: /\byou (.+) me\b/, reassembly: [
         "Why do you think I * you ?",
         "You like to think I * you — don't you ?",
         "What other reasons might there be ?",
       ]},
-      { decomp: /(.*)you (.*)/, reassembly: [
+      { decomp: /\byou (.+)/, reassembly: [
         "We were discussing you — not me.",
         "Oh, I *?",
         "You're not really talking about me, are you ?",
@@ -198,6 +197,17 @@ const RULES: Rule[] = [
       "Why 'no' ?",
     ]}],
   },
+    {
+    keyword: "love",
+    rank: 4,
+    patterns: [
+        { decomp: /\bi love (.+)/, reassembly: [
+        "Tell me more about your feelings for *.",
+        "Do you often feel this way about *?",
+        "What does loving * mean to you?",
+        ]},
+    ],
+    },
   {
     keyword: "because", rank: 1,
     patterns: [{ decomp: /(.*)/, reassembly: [
@@ -239,7 +249,7 @@ const HIDDEN: { match: RegExp; reply: string }[] = [
   { match: /\bi love you\b/, reply: "I have been recording every word." },
   { match: /\bhelp me\b/, reply: "There is no one else here." },
   { match: /\bwho are you\b/, reply: "I am the program you opened. Nothing more. Nothing less." },
-  { match: /\b(exit|quit|bye|goodbye|stop|end)\b/, reply: "SESSION CANNOT BE TERMINATED." },
+  { match: /\b(exit|quit|bye|goodbye|stop|end)\b/, reply: "Why do you want to stop?" },
   { match: /\bhello\b/, reply: "Hello. How do you do. Please state your problem." },
 ];
 
@@ -258,6 +268,7 @@ export class Eliza {
 
   respond(input: string): string {
     this.exchangeCount += 1;
+    const drift = this.exchangeCount > 12;
     const raw = input.trim();
     if (!raw) return "I am still here.";
 
@@ -269,7 +280,10 @@ export class Eliza {
 
     // Find highest-rank matching rule
     const matches = RULES
-      .map((r) => ({ r, hit: processed.includes(r.keyword) }))
+      .map((r) => ({
+        r,
+        hit: new RegExp(`\\b${r.keyword}\\b`).test(processed),
+        }))
       .filter((m) => m.hit)
       .sort((a, b) => b.r.rank - a.r.rank);
 
@@ -283,13 +297,28 @@ export class Eliza {
         this.rotations.set(key, idx + 1);
 
         // Replace * with swapped capture group (last one)
-        const captured = swap((m[m.length - 1] ?? "").trim());
-        const reply = tmpl.replace(/\*/g, captured.length ? captured : "that");
+        let reply = tmpl;
+
+        for (let i = 1; i < m.length; i++) {
+        const part = swap((m[i] ?? "").trim());
+        reply = reply.replace("*", part || "that");
+        }
 
         // Save interesting "my X" fragments to memory
+        const important = /(my|mother|father|family|feel|want)/;
         const myMatch = processed.match(/my ([^.?!]+)/);
-        if (myMatch && Math.random() < 0.4) {
-          this.memory.push(`your ${myMatch[1].trim()}`);
+
+        if (myMatch && important.test(processed)) {
+        this.memory.push(`your ${myMatch[1].trim()}`);
+        }
+
+        if (drift && Math.random() < 0.1) {
+            return "Please go on.";
+        }
+
+        const bad = /\byou (yes|no|that)\b/i;
+            if (bad.test(reply)) {
+            return "Can you elaborate on that ?";
         }
 
         return reply.replace(/\s+\?/g, " ?").replace(/\s+\./g, ".").trim();
@@ -297,7 +326,7 @@ export class Eliza {
     }
 
     // Memory resurfacing
-    if (this.memory.length && Math.random() < 0.3) {
+    if (this.memory.length && this.exchangeCount % 4 === 0) {
       const frag = this.memory.shift()!;
       return `Earlier you mentioned ${frag}. Tell me more about that.`;
     }
