@@ -5,7 +5,7 @@
 
 Una implementación moderna del legendario chatbot ELIZA con una interfaz de terminal estilo CRT de los años 80.
 
-![Screenshot Placeholder](https://placehold.co/800x400/000000/00FF00?text=Eliza+Terminal+Screenshot)
+![Screenshot Placeholder](/screenshot.png)
 
 ---
 
@@ -54,6 +54,7 @@ ELIZA podría responder:
 > "Tell me more about your feelings. You say you are sad because your cat died. How long have you been sad?"
 
 La clave del efecto "inteligente" era que el programa:
+
 - Usaba la palabra clave de mayor jerarquía
 - Extraía la porción relevante de la oración del usuario
 - Devolvía una pregunta o comentario que incluía esas palabras
@@ -64,13 +65,14 @@ Lo que sorprendió a Weizenbaum fue la **reacción emocional** de los usuarios. 
 
 En su libro de 1976, _Computer Power and Human Reason_, Weizenbaum escribió:
 
-> "What I had not realized is that the shortest distance between a man and his computer is the conversation between them... I had not realized... how powerfully the computer's verbal facility could be used to induce *involvement* in the conversation."
+> "What I had not realized is that the shortest distance between a man and his computer is the conversation between them... I had not realized... how powerfully the computer's verbal facility could be used to induce _involvement_ in the conversation."
 
 Weizenbaum quedó tan perturbado por este fenómeno que eventualmente se convirtió en uno de los críticos más vocales de la inteligencia artificial, arguing que las máquinas nunca deberían tomar decisiones que afecten la vida de las personas.
 
 ### Legado
 
 ELIZA sentó las bases para:
+
 - **Chatbots modernos** - Desde Siri hasta ChatGPT
 - **NLP temprana** - Procesamiento de lenguaje natural
 - **Pruebas de Turing** - El concepto de conversación como test de inteligencia
@@ -161,25 +163,11 @@ src/
 
 ## Keyboard Shortcuts
 
-| Comando | Descripción |
-|---------|-------------|
+| Comando  | Descripción                             |
+| -------- | --------------------------------------- |
 | `/reset` | Reinicia la sesión y borra el historial |
-| `Enter` | Envía el mensaje |
-| `Click` | Focus en el input |
-
----
-
-## Deployment
-
-```bash
-# Build para producción
-pnpm build
-
-# Run del servidor
-node dist/server/index.mjs
-```
-
-Deploy a Vercel, Netlify, Render, o cualquier host que soporte Node.js.
+| `Enter`  | Envía el mensaje                        |
+| `Click`  | Focus en el input                       |
 
 ---
 
