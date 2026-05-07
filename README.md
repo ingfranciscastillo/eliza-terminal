@@ -1,4 +1,4 @@
-![Logo](/logo.png)
+![Logo](/public/og-image.jpg)
 
 # Eliza Terminal
 
