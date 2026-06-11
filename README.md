@@ -1,11 +1,5 @@
 ![Logo](/public/og-image.jpg)
 
-<!-- README-I18N:START -->
-
-**Español** | [English](./README.en.md)
-
-<!-- README-I18N:END -->
-
 # Eliza Terminal
 
 [![live_preview](https://img.shields.io/badge/live_preview-000?style=for-the-badge&logo=vercel&logoColor=white)](https://eliza-terminal.vercel.app)
@@ -15,7 +9,13 @@
 [![linkedin](https://img.shields.io/badge/linkedin-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/ingfranciscastillo)
 [![last_commit](https://img.shields.io/github/last-commit/ingfranciscastillo/ai-resume-analyzer?style=for-the-badge)](https://github.com/ingfranciscastillo/eliza-terminal/commits/main)
 
-Una implementación moderna del legendario chatbot ELIZA con una interfaz de terminal estilo CRT de los años 80.
+<!-- README-I18N:START -->
+
+**English** | [Español](./README.es.md)
+
+<!-- README-I18N:END -->
+
+A modern implementation of the legendary ELIZA chatbot with a CRT terminal interface from the 80s.
 
 ![Screenshot Placeholder](/screenshot.png)
 
@@ -24,90 +24,90 @@ Una implementación moderna del legendario chatbot ELIZA con una interfaz de ter
 ## Quick Start
 
 ```bash
-# Instalar dependencias
+# Install dependencies
 pnpm install
 
-# Iniciar servidor de desarrollo
+# Start development server
 pnpm dev
 ```
 
-La aplicación estará disponible en `http://localhost:3000`.
+The app will be available at `http://localhost:3000`.
 
 ---
 
-## La Historia de ELIZA
+## The History of ELIZA
 
-### El Origen
+### Origins
 
-En 1966, en el MIT (Massachusetts Institute of Technology), el científico alemán **Joseph Weizenbaum** creó **ELIZA** - uno de los primeros programas de la historia capaz de mantener una conversación en lenguaje natural. El programa simulaba ser un psicoterapeuta Rogeriano llamado "DOCTOR".
+In 1966, at MIT (Massachusetts Institute of Technology), German scientist **Joseph Weizenbaum** created **ELIZA** - one of the first programs in history capable of maintaining natural language conversation. The program simulated being a Rogerian psychotherapist called "DOCTOR".
 
-Weizenbaum publicó su paper [_ELIZA - A Computer Program For the Study of Natural Language Communication Between Man and Machine_](https://dl.acm.org/doi/10.1145/365153.365168) en 1966, describiendo un sistema que podía:
+Weizenbaum published his paper [_ELIZA - A Computer Program For the Study of Natural Language Communication Between Man and Machine_](https://dl.acm.org/doi/10.1145/365153.365168) in 1966, describing a system that could:
 
-- Recebir entrada en lenguaje natural
-- Aplicar transformaciones mediante reglas de pattern matching
-- Generar respuestas que simularan empatía
-- Mantener el rol de "psicoterapeuta no directivo"
+- Receive natural language input
+- Apply transformations through pattern matching rules
+- Generate responses that simulated empathy
+- Maintain the role of a "non-directive psychotherapist"
 
-### La Técnica
+### The Technique
 
-ELIZA utilizaba una técnica de **transformación de oraciones** basada en:
+ELIZA used a **sentence transformation** technique based on:
 
-1. **Pattern Matching**: Cada palabra clave en la entrada del usuario activa una regla específica
-2. **Descomposición**: La oración se parte en componentes
-3. **Reensamblaje**: Los componentes se recombinan usando plantillas predefinidas
-4. **Intercambio de pronombres**: "I" → "you", "my" → "your", etc.
+1. **Pattern Matching**: Each keyword in the user's input triggers a specific rule
+2. **Decomposition**: The sentence is split into components
+3. **Reassembly**: Components are recombined using predefined templates
+4. **Pronoun Swapping**: "I" → "you", "my" → "your", etc.
 
-Por ejemplo, si el usuario dice:
+For example, if the user says:
 
 > "I am feeling sad because my cat died"
 
-ELIZA podría responder:
+ELIZA might respond:
 
 > "Tell me more about your feelings. You say you are sad because your cat died. How long have you been sad?"
 
-La clave del efecto "inteligente" era que el programa:
+The key to the "intelligent" effect was that the program:
 
-- Usaba la palabra clave de mayor jerarquía
-- Extraía la porción relevante de la oración del usuario
-- Devolvía una pregunta o comentario que incluía esas palabras
+- Used the highest-ranking keyword
+- Extracted the relevant portion of the user's sentence
+- Returned a question or comment that included those words
 
-### El Impacto Inesperado
+### The Unexpected Impact
 
-Lo que sorprendió a Weizenbaum fue la **reacción emocional** de los usuarios. Mucha gente comenzaba a treated al programa como si fuera un verdadero terapeuta, algunos incluso revelaban problemas personales profundos.
+What surprised Weizenbaum was the **emotional reaction** from users. Many people began to treat the program as if it were a real therapist, some even revealing deep personal problems.
 
-En su libro de 1976, _Computer Power and Human Reason_, Weizenbaum escribió:
+In his 1976 book, _Computer Power and Human Reason_, Weizenbaum wrote:
 
 > "What I had not realized is that the shortest distance between a man and his computer is the conversation between them... I had not realized... how powerfully the computer's verbal facility could be used to induce _involvement_ in the conversation."
 
-Weizenbaum quedó tan perturbado por este fenómeno que eventualmente se convirtió en uno de los críticos más vocales de la inteligencia artificial, arguing que las máquinas nunca deberían tomar decisiones que afecten la vida de las personas.
+Weizenbaum was so disturbed by this phenomenon that he eventually became one of the most vocal critics of artificial intelligence, arguing that machines should never make decisions that affect people's lives.
 
-### Legado
+### Legacy
 
-ELIZA sentó las bases para:
+ELIZA laid the groundwork for:
 
-- **Chatbots modernos** - Desde Siri hasta ChatGPT
-- **NLP temprana** - Procesamiento de lenguaje natural
-- **Pruebas de Turing** - El concepto de conversación como test de inteligencia
-- **Diseño de interfaces conversacionales** - Voice UIs, chatbots de servicio
-
----
-
-## Sobre Este Proyecto
-
-Este proyecto es un **homenaje técnico y artístico** a ELIZA, reimaginado para la web moderna con:
-
-- **Estética retro** - Displays CRT, efecto fósforo verde, scanlines
-- **Efectos dinámicos** - Glitches, parpadeos, delay typewriter
-- **Persistencia** - Sesiones guardadas en localStorage
-- **Comportamiento emergente** - "Drift" después de conversaciones largas
-
-No es una replicas exacta del código original de Weizenbaum (escrito en MAD-SLIP para el mainframe IBM 7094), sino una reinterpretación moderna del concepto.
+- **Modern Chatbots** - From Siri to ChatGPT
+- **Early NLP** - Natural Language Processing
+- **Turing Tests** - The concept of conversation as a test of intelligence
+- **Conversational Interface Design** - Voice UIs, service chatbots
 
 ---
 
-## Arquitectura
+## About This Project
 
-### Stack Técnico
+This project is a **technical and artistic tribute** to ELIZA, reimagined for the modern web with:
+
+- **Retro aesthetic** - CRT displays, green phosphor effect, scanlines
+- **Dynamic effects** - Glitches, flickering, typewriter delay
+- **Persistence** - Sessions saved in localStorage
+- **Emergent behavior** - "Drift" after long conversations
+
+It is not an exact replica of Weizenbaum's original code (written in MAD-SLIP for the IBM 7094 mainframe), but a modern reinterpretation of the concept.
+
+---
+
+## Architecture
+
+### Tech Stack
 
 ```
 React 19 + TanStack Start
@@ -119,71 +119,71 @@ React 19 + TanStack Start
 └── Vitest (testing)
 ```
 
-### Estructura del Proyecto
+### Project Structure
 
 ```
 src/
 ├── components/
-│   ├── Terminal.tsx    # Componente principal
-│   └── Message.tsx     # Render de mensajes con typewriter
+│   ├── Terminal.tsx    # Main component
+│   └── Message.tsx     # Message render with typewriter
 ├── lib/
-│   ├── eliza.ts        # Motor de ELIZA (rules + responses)
-│   └── glitches.ts     # Efectos visuales + mensajes del sistema
+│   ├── eliza.ts        # ELIZA engine (rules + responses)
+│   └── glitches.ts     # Visual effects + system messages
 ├── routes/
 │   ├── __root.tsx      # Root layout
 │   └── index.tsx       # Home -> Terminal
 └── styles.css          # CRT effects + theme
 ```
 
-### Cómo Funciona el Motor ELIZA
+### How the ELIZA Engine Works
 
-1. **Preprocesamiento**: Normalización del texto (lowercase, remove punctuation, synonym mapping)
+1. **Preprocessing**: Text normalization (lowercase, remove punctuation, synonym mapping)
 
-2. **Matching de Reglas**:
-   - Busca palabras clave en orden de prioridad (rank)
-   - Aplica regex de descomposición
-   - Selecciona plantilla de respuesta (rotación)
+2. **Rule Matching**:
+   - Search for keywords in priority order (rank)
+   - Apply decomposition regex
+   - Select response template (rotation)
 
-3. **Transformación**:
-   - Intercambia pronombres (I↔you, my↔your)
-   - Reemplaza `*` con la porción capturada del input
-   - Guarda fragmentos significativos en memoria
+3. **Transformation**:
+   - Swap pronouns (I↔you, my↔your)
+   - Replace `*` with the captured portion of input
+   - Save meaningful fragments to memory
 
-4. **Respuesta**:
-   - Si hay match: retorna respuesta transformada
-   - Si no: fallback ("Please go on.")
-   - Memory resurfacing: ocasionalmente menciona topics previos
+4. **Response**:
+   - If match: return transformed response
+   - If no match: fallback ("Please go on.")
+   - Memory resurfacing: occasionally mentions previous topics
 
 ---
 
 ## Features
 
-- ✅ Efecto typewriter con delay variable
-- ✅ Glitch visual aleatorio que se autocorige
-- ✅ Persistencia de sesión (localStorage)
-- ✅ Comando `/reset` para reiniciar
-- ✅ Mensajes del sistema cada 4 intercambios
-- ✅ "Drift" behavior después de 12+ intercambios
-- ✅ Scanlines CRT overlay
-- ✅ Efecto viñeta
-- ✅ Cursor parpadeante
-- ✅ Text glow (efecto fósforo)
-- ✅ Soporte para contracciones (I'm, don't, etc.)
-- ✅ Manejo de palabras ocultas (exit, help, who are you)
+- ✅ Typewriter effect with variable delay
+- ✅ Random visual glitch that self-corrects
+- ✅ Session persistence (localStorage)
+- ✅ `/reset` command to restart
+- ✅ System messages every 4 exchanges
+- ✅ "Drift" behavior after 12+ exchanges
+- ✅ CRT scanlines overlay
+- ✅ Vignette effect
+- ✅ Blinking cursor
+- ✅ Text glow (phosphor effect)
+- ✅ Contraction support (I'm, don't, etc.)
+- ✅ Hidden word handling (exit, help, who are you)
 
 ---
 
 ## Keyboard Shortcuts
 
-| Comando  | Descripción                             |
-| -------- | --------------------------------------- |
-| `/reset` | Reinicia la sesión y borra el historial |
-| `Enter`  | Envía el mensaje                        |
-| `Click`  | Focus en el input                       |
+| Command  | Description                       |
+| -------- | --------------------------------- |
+| `/reset` | Resets the session and clears history |
+| `Enter`  | Send message                      |
+| `Click`  | Focus on input                    |
 
 ---
 
-## Inspiración
+## Inspiration
 
 - Joseph Weizenbaum, "ELIZA - A Computer Program For the Study of Natural Language Communication Between Man and Machine" (1966)
 - Joseph Weizenbaum, _Computer Power and Human Reason_ (1976)
