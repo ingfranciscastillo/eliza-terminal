@@ -1,5 +1,11 @@
 ![Logo](/public/og-image.jpg)
 
+<!-- README-I18N:START -->
+
+**Español** | [English](./README.en.md)
+
+<!-- README-I18N:END -->
+
 # Eliza Terminal
 
 [![live_preview](https://img.shields.io/badge/live_preview-000?style=for-the-badge&logo=vercel&logoColor=white)](https://eliza-terminal.vercel.app)
